@@ -1,0 +1,1 @@
+# dockerCE_standalone

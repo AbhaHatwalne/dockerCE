@@ -1,0 +1,53 @@
+#!/bin/bash
+{{$docker_reg_location :=getv "/env/docker_reg_location"}}
+{{$docker_user :=getv "/env/docker_user"}}
+{{$docker_pwd :=getv "/env/docker_pwd"}}
+{{$docker_image :=getv "/env/docker_image"}}
+{{$docker_pull_tag :=getv "/env/docker_pull_tag"}}
+{{$docker_vol :=getv "/env/docker_vol"}}
+{{$docker_port :=getv "/env/docker_port"}}
+docker_tag={{$docker_pull_tag}}
+
+{{if eq $docker_reg_location "qingcloud"}}
+if [ -n "$docker_tag" ]
+then
+  docker_url="dockerhub.qingcloud.com/{{$docker_user}}/{{$docker_image}}:{{$docker_pull_tag}}"
+else
+  docker_url="dockerhub.qingcloud.com/{{$docker_user}}/{{$docker_image}}"
+fi
+docker login -u {{$docker_user}} -p {{$docker_pwd}} dockerhub.qingcloud.com
+docker pull $docker_url
+loop=60
+while [ "$loop" -gt 0 ]
+do
+  image_record=`docker images -a |awk '{print $1":"$2}'|grep $docker_url`
+  if [ -n "image_record" ]
+  then
+    loop=0
+  else
+    sleep 30s
+  fi
+done
+{{else}}
+if [ -n "$docker_tag" ]
+then
+  docker_url="{{$docker_image}}:{{$docker_pull_tag}}"
+else
+  docker_url="{{$docker_image}}"
+fi
+docker login -u {{$docker_user}} -p {{$docker_pwd}}
+docker pull $docker_url
+loop=60
+while [ "$loop" -gt 0 ]
+do
+  image_record=`docker images -a |awk '{print $1":"$2}'|grep $docker_url`
+  if [ -n "image_record" ]
+  then
+    loop=0
+  else
+    sleep 30s
+  fi
+done
+{{end}}
+/opt/docker/bin/docker-restart.sh
+docker run -d -e TZ=Asia/Shanghai -p 80:{{$docker_port}}  -v /data/docker_data:{{$docker_vol}} $docker_url

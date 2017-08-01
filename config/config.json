@@ -1,0 +1,263 @@
+{
+	"type": "array",
+	"properties": [
+		{
+			"key": "cluster",
+			"description": "Docker on QingCloud",
+			"type": "array",
+			"properties": [
+				{
+					"key": "name",
+					"label": "Name",
+					"description": "The name of the Docker service",
+					"type": "string",
+					"default": "Docker multiple-nodes service",
+					"required": "no"
+				},
+				{
+					"key": "description",
+					"label": "Description",
+					"description": "The description of the Docker service",
+					"type": "string",
+					"default": "",
+					"required": "no"
+				},
+				{
+					"key": "vxnet",
+					"label": "vxnet",
+					"description": "Choose a vxnet to join",
+					"type": "string",
+					"default": "",
+					"required": "yes"
+				},
+				{
+					"key": "docker_node",
+					"label": "Docker node",
+					"description": "Docker node properties",
+					"type": "array",
+					"properties": [
+						{
+							"key": "loadbalancer",
+							"label": "loadbalancer",
+							"description": "Choose a loadbalancer service (When you create loadbalancer, you need to select the Internet type. Loadbalancer listener need to enable Session Sticky. Listener protocol should be http)",
+							"type": "loadbalancer",
+							"port": 80,
+							"default": [
+							],
+							"required": "yes"
+						},
+						{
+							"key": "cpu",
+							"label": "CPU",
+							"description": "CPUs of each node",
+							"type": "integer",
+							"default": 1,
+							"range": [
+								1,
+								2,
+								4,
+								8
+							],
+							"required": "yes"
+						},
+						{
+							"key": "memory",
+							"label": "Memory",
+							"description": "Memory of each node",
+							"type": "integer",
+							"default": 1024,
+							"range": [
+                                1024,
+								2048,
+								4096,
+								8192
+							],
+							"required": "yes"
+						},
+						{
+							"key": "instance_class",
+							"label": "Instance Class",
+							"description": "The instance type for the cluster to run, such as high performance, high performance plus",
+							"type": "integer",
+							"default": 0,
+							"range": [
+								0,
+								1
+							],
+							"required": "yes"
+						},
+						{
+							"key": "count",
+							"label": "Node Count",
+							"description": "Number of nodes for the cluster to create",
+							"type": "integer",
+							"default": 1,
+							"range": [
+                                1,
+								2,
+								3,
+								4,
+								5,
+								6
+							],
+							"required": "yes"
+                        },
+						{
+							"key": "volume_size",
+							"label": "Volume Size",
+							"description": "The volume size for each node",
+							"type": "integer",
+                            "default": 10,
+                            "min": 10,
+                            "max": 1000,
+                            "step": 10,
+							"required": "yes"
+						}
+					]
+				},
+				{
+					"key": "client_node",
+					"label": "Docker client node",
+					"description": "Docker client node properties",
+					"type": "array",
+					"properties": [
+						{
+							"key": "cpu",
+							"label": "CPU",
+							"description": "CPUs of this client node",
+							"type": "integer",
+							"default": 1,
+							"range": [
+								1,
+								2,
+								4,
+								8
+							],
+							"required": "yes"
+						},
+						{
+							"key": "memory",
+							"label": "Memory",
+							"description": "Memory of this client node",
+							"type": "integer",
+							"default": 1024,
+							"range": [
+                                1024,
+								2048
+							],
+							"required": "yes"
+						},
+						{
+							"key": "instance_class",
+							"label": "Instance Class",
+							"description": "The instance type for this node to run, such as high performance, high performance plus",
+							"type": "integer",
+							"default": 0,
+							"range": [
+								0,
+								1
+							],
+							"required": "yes"
+						},
+						{
+							"key": "volume_size",
+							"label": "Volume Size",
+							"description": "The volume size for this client node",
+							"type": "integer",
+                            "default": 10,
+                            "min": 10,
+                            "max": 1000,
+                            "step": 10,
+							"required": "yes"
+						}
+					]
+				}		
+			]
+		},
+		{
+			"key": "env",
+			"description": "Docker service properties",
+			"type": "array",
+			"properties": [
+				{
+					"key": "docker_reg_location",
+					"label": "The location of Docker registry server",
+					"description": "The location of Docker registry server, Docker hub or qingcloud",
+					"type": "string",
+					"default": "qingcloud",
+					"range": [
+						"dockerhub",
+						"qingcloud"
+					],
+					"required": "yes"
+				},
+				{
+					"key": "docker_mirror_location",
+					"label": "The location of Docker mirror registry server",
+					"description": "The location of Docker mirror registry server, currently only support offcial DockerHub registration server",
+					"type": "string",
+					"default": "https://registry.docker-cn.com",
+					"required": "no"
+				},
+				{
+					"key": "docker_user",
+					"label": "User name",
+					"description": "User name to access Docker registry server",
+                    "type": "string",
+                    "changeable": true,
+					"default": "",
+					"required": "yes"
+                },
+                {
+					"key": "docker_pwd",
+					"label": "Password",
+					"description": "Password to access Docker registry server",
+					"type": "password",
+					"changeable": true,
+					"default": "",
+					"required": "yes"
+                },
+				{
+					"key": "docker_image",
+					"label": "Image Id",
+					"description": "Docker image id on Docker registration server",
+					"type": "string",
+					"default": "",
+					"required": "yes"
+				},
+				{
+					"key": "docker_pull_tag",
+					"label": "Docker tag for pull request",
+					"description": "Docker tag for pull request, will pull latest image if nothing input",
+					"type": "string",
+					"default": "",
+					"required": "no"
+				},
+				{
+					"key": "docker_upgrade_tag",
+					"label": "Docker tag for upgrade request",
+					"description": "Docker tag for upgrade request, will be treated as latest image if nothing input",
+					"type": "string",
+					"default": "",
+					"required": "no"
+				},
+				{
+					"key": "docker_vol",
+					"label": "Volume path",
+					"description": "Volume path in running container, which will be mapped with '/data/docker_data' folder on host node, please input as full path",
+					"type": "string",
+					"default": "/qingcloud_data",
+					"required": "yes"
+				},
+				{
+					"key": "docker_port",
+					"label": "Port",
+					"description": "Port exposed by running container, which will be mapped with '80' port on host node",
+					"type": "string",
+					"default": "8080",
+					"required": "yes"
+				}
+			]
+		}
+	]
+}

@@ -1,0 +1,10 @@
+{{$docker_mirror_location :=getv "/env/docker_mirror_location"}}
+{{$docker_reg_location :=getv "/env/docker_reg_location"}}
+{
+  {{if eq $docker_reg_location "dockerhub"}}
+  {{if gt ( len ( $docker_mirror_location ) ) 0}}
+  "registry-mirrors": ["{{$docker_mirror_location}}"],
+  {{end}}
+  {{end}}
+  "hosts": ["0.0.0.0:2375","unix:///var/run/docker.sock"]
+}

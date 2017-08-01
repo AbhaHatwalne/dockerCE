@@ -1,0 +1,110 @@
+{
+     "name": {{cluster.name}},
+     "description": {{cluster.description}},
+     "vxnet": {{cluster.vxnet}},
+     "nodes": [
+         {
+             "role": "docker_node",
+             "container": {
+                 "type": "kvm",
+                 "zone": "pek3a",
+                 "image": "img-vfpydkv9"
+             },
+             "loadbalancer": {{cluster.docker_node.loadbalancer}},
+             "instance_class": {{cluster.docker_node.instance_class}},
+             "count": {{cluster.docker_node.count}},
+             "cpu": {{cluster.docker_node.cpu}},
+             "memory": {{cluster.docker_node.memory}},
+             "volume": {
+                "size": {{cluster.docker_node.volume_size}},
+                "mount_point": "/data",
+                "mount_options":"defaults,noatime",
+                "filesystem":"ext4"
+             },
+             "vertical_scaling_policy": "sequential",
+             "services": {
+             	 "init": {
+             	 	"cmd": "/opt/docker/bin/docker-init.sh"
+             	 },
+                 "start": {
+                    "cmd": "/opt/docker/bin/docker-start.sh;/opt/docker/bin/docker-node-run.sh"
+                 },
+                 "restart": {
+                   "cmd": "/opt/docker/bin/docker-restart.sh"
+                 },
+                 "stop": {
+                     "cmd": "/opt/docker/bin/docker-stop.sh"
+                 },
+                 "upgrade image": {
+                     "cmd": "/opt/docker/bin/docker-img-update.sh"
+                 }
+             },
+            "health_check": {
+                "enable": true,
+                "interval_sec": 60,
+                "timeout_sec": 10,
+                "action_timeout_sec": 30,
+                "healthy_threshold": 2,
+                "unhealthy_threshold": 2,
+                "check_cmd": "systemctl status docker|grep 'running'",
+                "action_cmd": "/opt/docker/bin/docker-restart.sh"
+            },
+             "advanced_actions": ["scale_horizontal"]
+         },
+         {
+             "role": "client_node",
+             "container": {
+                 "type": "kvm",
+                 "zone": "pek3a",
+                 "image": "img-vfpydkv9"
+             },
+             "instance_class": {{cluster.client_node.instance_class}},
+             "count": 1,
+             "cpu": {{cluster.client_node.cpu}},
+             "memory": {{cluster.client_node.memory}},
+             "volume": {
+                "size": {{cluster.client_node.volume_size}},
+                "mount_point": "/data",
+                "mount_options":"defaults,noatime",
+                "filesystem":"ext4"
+             },
+             "vertical_scaling_policy": "sequential",
+             "services": {
+             	 "init": {
+             	 	"cmd": "/opt/docker/bin/docker-init.sh;echo 'root:docker4you' | chpasswd"
+             	 },
+                 "start": {
+                    "cmd": "/opt/docker/bin/docker-start.sh"
+                 },
+                 "restart": {
+                   "cmd": "/opt/docker/bin/docker-restart.sh"
+                 },
+                 "stop": {
+                     "cmd": "/opt/docker/bin/docker-stop.sh"
+                 }
+             },
+            "health_check": {
+                "enable": true,
+                "interval_sec": 60,
+                "timeout_sec": 10,
+                "action_timeout_sec": 30,
+                "healthy_threshold": 2,
+                "unhealthy_threshold": 2,
+                "check_cmd": "systemctl status docker|grep 'running'",
+                "action_cmd": "/opt/docker/bin/docker-restart.sh"
+            },
+             "user_access": true
+         }
+     ],
+     "env": {
+         "docker_reg_location": {{env.docker_reg_location}},
+         "docker_mirror_location": {{env.docker_mirror_location}},
+         "docker_user": {{env.docker_user}},
+         "docker_pwd": {{env.docker_pwd}},
+         "docker_image": {{env.docker_image}},
+         "docker_pull_tag": {{env.docker_pull_tag}},
+         "docker_upgrade_tag": {{env.docker_upgrade_tag}},
+         "docker_vol": {{env.docker_vol}},
+         "docker_port": {{env.docker_port}}
+     }
+ }

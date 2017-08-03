@@ -1,0 +1,25 @@
+{{$docker_mirror_location :=getv "/env/docker_mirror_location"}}
+{{$is_pull_secure :=getv "/env/is_pull_secure"}}
+{{$docker_pull_url :=getv "/env/docker_pull_url"}}
+{{$is_upgrade_secure :=getv "/env/is_upgrade_secure"}}
+{{$docker_upgrade_url :=getv "/env/docker_upgrade_url"}}
+{
+  {{if gt ( len ( $docker_mirror_location ) ) 0}}
+  "registry-mirrors": ["{{$docker_mirror_location}}"],
+  {{end}}
+  "log-driver": "fluentd",
+  {{range $dir := lsdir "/hosts/client_node/"}}{{$client_node_ip := printf "/hosts/client_node/%s/ip" $dir}}{{$client_inst_id := printf "/hosts/client_node/%s/instance_id" $dir}}
+  "log-opts": {
+    "fluentd-address": "{{getv $client_node_ip}}:24224",
+    "tag": "{{getv $client_inst_id}}"
+  },
+  {{end}}
+  {{if eq $is_pull_secure "no"}}{{$pull_parms := split $docker_pull_url "/"}}
+  {{if eq $is_upgrade_secure "no"}}{{$upgrade_parms := split $docker_upgrade_url "/"}}
+  "insecure-registries": ["{{index $pull_parms 0}}","{{index $upgrade_parms 0}}"],
+  {{else}}
+  "insecure-registries": ["{{index $pull_parms 0}}"],
+  {{end}}
+  {{end}}
+  "hosts": ["0.0.0.0:2375","unix:///var/run/docker.sock"]
+}

@@ -8,7 +8,7 @@
              "container": {
                  "type": "kvm",
                  "zone": "pek3a",
-                 "image": "img-vfpydkv9"
+                 "image": "img-qkgw9eqj"
              },
              "loadbalancer": {{cluster.docker_node.loadbalancer}},
              "instance_class": {{cluster.docker_node.instance_class}},
@@ -24,19 +24,19 @@
              "vertical_scaling_policy": "sequential",
              "services": {
              	 "init": {
-             	 	"cmd": "/opt/docker/bin/docker-init.sh"
+             	 	"cmd": "/opt/docker/bin/init-docker.sh"
              	 },
                  "start": {
-                    "cmd": "/opt/docker/bin/docker-start.sh;/opt/docker/bin/docker-node-run.sh"
+                    "cmd": "/opt/docker/bin/start-docker.sh;/opt/docker/bin/run-img.sh"
                  },
                  "restart": {
-                   "cmd": "/opt/docker/bin/docker-restart.sh"
+                   "cmd": "/opt/docker/bin/restart-docker.sh"
                  },
                  "stop": {
-                     "cmd": "/opt/docker/bin/docker-stop.sh"
+                     "cmd": "/opt/docker/bin/stop-docker.sh"
                  },
                  "upgrade image": {
-                     "cmd": "/opt/docker/bin/docker-img-update.sh"
+                     "cmd": "/opt/docker/bin/upgrade-img.sh"
                  }
              },
             "health_check": {
@@ -46,8 +46,8 @@
                 "action_timeout_sec": 30,
                 "healthy_threshold": 2,
                 "unhealthy_threshold": 2,
-                "check_cmd": "systemctl status docker|grep 'running'",
-                "action_cmd": "/opt/docker/bin/docker-restart.sh"
+                "check_cmd": "/opt/docker/bin/check-health.sh",
+                "action_cmd": "/opt/docker/bin/restart-docker.sh;/opt/docker/bin/run-img.sh"
             },
              "advanced_actions": ["scale_horizontal"]
          },
@@ -56,7 +56,7 @@
              "container": {
                  "type": "kvm",
                  "zone": "pek3a",
-                 "image": "img-vfpydkv9"
+                 "image": "img-l7ctjxin"
              },
              "instance_class": {{cluster.client_node.instance_class}},
              "count": 1,
@@ -71,16 +71,16 @@
              "vertical_scaling_policy": "sequential",
              "services": {
              	 "init": {
-             	 	"cmd": "/opt/docker/bin/docker-init.sh;echo 'root:docker4you' | chpasswd"
+             	 	"cmd": "/opt/docker/bin/init-docker.sh"
              	 },
                  "start": {
-                    "cmd": "/opt/docker/bin/docker-start.sh"
+                    "cmd": "/opt/docker/bin/start-docker.sh;/opt/docker/bin/run-img.sh"
                  },
                  "restart": {
-                   "cmd": "/opt/docker/bin/docker-restart.sh"
+                   "cmd": "/opt/docker/bin/restart-docker.sh"
                  },
                  "stop": {
-                     "cmd": "/opt/docker/bin/docker-stop.sh"
+                     "cmd": "/opt/docker/bin/stop-docker.sh"
                  }
              },
             "health_check": {
@@ -90,21 +90,24 @@
                 "action_timeout_sec": 30,
                 "healthy_threshold": 2,
                 "unhealthy_threshold": 2,
-                "check_cmd": "systemctl status docker|grep 'running'",
-                "action_cmd": "/opt/docker/bin/docker-restart.sh"
+                "check_cmd": "docker ps | awk '{print $2}' | grep -v 'none' | grep -iv 'container' | grep fluent",
+                "action_cmd": "/opt/docker/bin/restart-docker.sh;/opt/docker/bin/run-img.sh"
             },
              "user_access": true
          }
      ],
      "env": {
-         "docker_reg_location": {{env.docker_reg_location}},
          "docker_mirror_location": {{env.docker_mirror_location}},
          "docker_user": {{env.docker_user}},
          "docker_pwd": {{env.docker_pwd}},
-         "docker_image": {{env.docker_image}},
-         "docker_pull_tag": {{env.docker_pull_tag}},
-         "docker_upgrade_tag": {{env.docker_upgrade_tag}},
+         "is_pull_secure": {{env.is_pull_secure}},
+         "docker_pull_url": {{env.docker_pull_url}},
+         "docker_run_cmd": {{env.docker_run_cmd}},
+         "is_upgrade_secure": {{env.is_upgrade_secure}},
+         "docker_upgrade_url": {{env.docker_upgrade_url}},
          "docker_vol": {{env.docker_vol}},
-         "docker_port": {{env.docker_port}}
+         "docker_port": {{env.docker_port}},
+         "es_ip": {{env.es_ip}},
+         "es_port": {{env.es_port}}
      }
  }

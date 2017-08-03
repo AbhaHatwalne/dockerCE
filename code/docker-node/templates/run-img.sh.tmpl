@@ -1,0 +1,25 @@
+#!/bin/bash
+{{$docker_user :=getv "/env/docker_user" "guest"}}
+{{$docker_pwd :=getv "/env/docker_pwd" "guest"}}
+{{$docker_pull_url :=getv "/env/docker_pull_url"}}
+{{$docker_run_cmd :=getv "/env/docker_run_cmd"}}
+{{$docker_vol :=getv "/env/docker_vol"}}
+{{$docker_port :=getv "/env/docker_port"}}
+
+docker login -u {{$docker_user}} -p {{$docker_pwd}} {{$docker_pull_url}}
+docker pull {{$docker_pull_url}}
+loop=60
+while [ "$loop" -gt 0 ]
+do
+  image_record=`docker images -a |awk '{print $1":"$2}'|grep {{$docker_pull_url}}`
+  if [ -n $image_record ]
+  then
+    loop=0
+  else
+    sleep 30s
+  fi
+done
+/opt/docker/bin/docker-restart.sh
+docker run -d -e TZ=Asia/Shanghai -p 80:{{$docker_port}}  -v /data/docker_data:{{$docker_vol}} {{$docker_pull_url}} {{$docker_run_cmd}}
+
+

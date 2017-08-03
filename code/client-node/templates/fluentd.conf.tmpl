@@ -1,0 +1,34 @@
+{{$es_ip :=getv "/env/es_ip"}}
+{{$es_port :=getv "/env/es_port"}}
+{{if gt ( len ( $es_ip ) ) 0}}
+ <source>
+   @type forward
+ </source>
+
+ <match *.**>
+  @type copy
+  <store>
+    @type elasticsearch
+    host $es_ip
+    port $es_port
+    logstash_format true
+    logstash_prefix fluentd
+    logstash_dateformat %Y%m%d
+    include_tag_key true
+    type_name access_log
+    tag_key @log_name
+    flush_interval 1s
+  </store>
+  <store>
+    @type stdout
+  </store>
+ </match>
+{{else}}
+ <source>
+   @type forward
+ </source>
+
+ <match *>
+   @type stdout
+ </match>
+{{end}}

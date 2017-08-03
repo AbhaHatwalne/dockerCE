@@ -56,7 +56,9 @@
 								1,
 								2,
 								4,
-								8
+								8,
+								12,
+								16
 							],
 							"required": "yes"
 						},
@@ -70,7 +72,8 @@
                                 1024,
 								2048,
 								4096,
-								8192
+								8192,
+								12288, 16384, 24576, 32768, 40960, 49152, 65536, 131072
 							],
 							"required": "yes"
 						},
@@ -129,9 +132,7 @@
 							"default": 1,
 							"range": [
 								1,
-								2,
-								4,
-								8
+								2
 							],
 							"required": "yes"
 						},
@@ -180,23 +181,12 @@
 			"type": "array",
 			"properties": [
 				{
-					"key": "docker_reg_location",
-					"label": "The location of Docker registry server",
-					"description": "The location of Docker registry server, Docker hub or qingcloud",
-					"type": "string",
-					"default": "qingcloud",
-					"range": [
-						"dockerhub",
-						"qingcloud"
-					],
-					"required": "yes"
-				},
-				{
 					"key": "docker_mirror_location",
 					"label": "The location of Docker mirror registry server",
 					"description": "The location of Docker mirror registry server, currently only support offcial DockerHub registration server",
 					"type": "string",
-					"default": "https://registry.docker-cn.com",
+					"changeable": true,
+					"default": "",
 					"required": "no"
 				},
 				{
@@ -216,28 +206,49 @@
 					"changeable": true,
 					"default": "",
 					"required": "yes"
-                },
+				},
 				{
-					"key": "docker_image",
-					"label": "Image Id",
-					"description": "Docker image id on Docker registration server",
+					"key": "is_pull_secure",
+					"label": "This pull URL is secure or not",
+					"description": "This pull URL is secure or not, will add domain to insecure-registries if choosing 'no'",
 					"type": "string",
+					"range": ["yes", "no"],
+					"default": "yes",
+					"required": "yes"
+				},
+				{
+					"key": "docker_pull_url",
+					"label": "URL for pull request",
+					"description": "URL for pull request, for example, dockerhub.qingcloud.com/guest/image:tag",
+					"type": "string",
+					"changeable": true,
 					"default": "",
 					"required": "yes"
 				},
 				{
-					"key": "docker_pull_tag",
-					"label": "Docker tag for pull request",
-					"description": "Docker tag for pull request, will pull latest image if nothing input",
+					"key": "docker_run_cmd",
+					"label": "The executed command when starting a Docker container",
+					"description": "The executed command when starting a Docker container, only for the image which has ENTRYPOINT but no CMD",
 					"type": "string",
+					"changeable": true,
 					"default": "",
 					"required": "no"
 				},
 				{
-					"key": "docker_upgrade_tag",
-					"label": "Docker tag for upgrade request",
-					"description": "Docker tag for upgrade request, will be treated as latest image if nothing input",
+					"key": "is_upgrade_secure",
+					"label": "This upgrade URL is secure or not",
+					"description": "This upgrade URL is secure or not, will add domain to insecure-registries if choosing 'no'",
 					"type": "string",
+					"range": ["yes", "no"],
+					"default": "yes",
+					"required": "no"
+				},
+				{
+					"key": "docker_upgrade_url",
+					"label": "URL for upgrade request",
+					"description": "URL for upgrade request, for example, dockerhub.qingcloud.com/guest/image:tag",
+					"type": "string",
+					"changeable": true,
 					"default": "",
 					"required": "no"
 				},
@@ -246,6 +257,7 @@
 					"label": "Volume path",
 					"description": "Volume path in running container, which will be mapped with '/data/docker_data' folder on host node, please input as full path",
 					"type": "string",
+					"changeable": true,
 					"default": "/qingcloud_data",
 					"required": "yes"
 				},
@@ -254,8 +266,27 @@
 					"label": "Port",
 					"description": "Port exposed by running container, which will be mapped with '80' port on host node",
 					"type": "string",
+					"changeable": true,
 					"default": "8080",
 					"required": "yes"
+				},
+				{
+					"key": "es_ip",
+					"label": "IP address of Elastic Search server",
+					"description": "IP address of Elastic Search server, leave it empty if you don't need Elastic Search server to manage trace",
+					"type": "string",
+					"changeable": true,
+					"default": "",
+					"required": "no"
+				},
+				{
+					"key": "es_port",
+					"label": "Port of Elastic Search server",
+					"description": "Port of Elastic Search server,  leave it empty if you don't need Elastic Search server to manage trace",
+					"type": "string",
+					"changeable": true,
+					"default": "9200",
+					"required": "no"
 				}
 			]
 		}

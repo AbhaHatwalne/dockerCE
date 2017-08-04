@@ -1,7 +1,7 @@
 #!/bin/bash
-is_running=`docker ps | awk '{print $1}' | grep -v 'none' | grep -iv 'container'`
+#is_running=`docker ps | awk '{print $1}' | grep -v 'none' | grep -iv 'container'`
 #echo $is_running
-if [ "$is_running" != "" ]
+if docker ps | awk '{print $1}' | grep -v 'none' | grep -iv 'container'
 then
   #echo "0"
   exit 0

@@ -187,12 +187,13 @@
 					"type": "string",
 					"changeable": true,
 					"default": "",
-					"required": "no"
+					"required": "no",
+					"pattern": "^$|https?.*"
 				},
 				{
 					"key": "docker_user",
 					"label": "User name",
-					"description": "User name to access Docker registry server",
+					"description": "User name to access Docker registry server, will use guest account if leaving it empty, guest accout is supported by offical dockerhub site and dockerhub.qingcloud.com",
                     "type": "string",
                     "changeable": true,
 					"default": "",
@@ -201,7 +202,7 @@
                 {
 					"key": "docker_pwd",
 					"label": "Password",
-					"description": "Password to access Docker registry server",
+					"description": "Password to access Docker registry server, will use guest account if leaving it empty, guest accout is supported by offical dockerhub site and dockerhub.qingcloud.com",
 					"type": "password",
 					"changeable": true,
 					"default": "",
@@ -223,7 +224,8 @@
 					"type": "string",
 					"changeable": true,
 					"default": "",
-					"required": "yes"
+					"required": "yes",
+					"pattern": "^$|(?!http).*"
 				},
 				{
 					"key": "docker_run_cmd",
@@ -250,16 +252,18 @@
 					"type": "string",
 					"changeable": true,
 					"default": "",
-					"required": "no"
+					"required": "no",
+					"pattern": "^$|(?!http).*"
 				},
 				{
 					"key": "docker_vol",
 					"label": "Volume path",
-					"description": "Volume path in running container, which will be mapped with '/data/docker_data' folder on host node, please input as full path",
+					"description": "Volume path in running container, which will be mapped with '/data/docker_data' folder on host node, please input the full path",
 					"type": "string",
 					"changeable": true,
 					"default": "/qingcloud_data",
-					"required": "yes"
+					"required": "yes",
+					"pattern": "^(\/[0-9a-zA-Z\\.\\_]+)+(\/)?$"
 				},
 				{
 					"key": "docker_port",
@@ -268,7 +272,8 @@
 					"type": "string",
 					"changeable": true,
 					"default": "8080",
-					"required": "yes"
+					"required": "yes",
+					"pattern": "^[0-9]*$"
 				},
 				{
 					"key": "es_ip",
@@ -286,7 +291,8 @@
 					"type": "string",
 					"changeable": true,
 					"default": "9200",
-					"required": "no"
+					"required": "no",
+					"pattern": "^[0-9]*$"
 				}
 			]
 		}

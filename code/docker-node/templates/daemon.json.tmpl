@@ -20,6 +20,8 @@
   {{else}}
   "insecure-registries": ["{{index $pull_parms 0}}"],
   {{end}}
+  {{else if eq $is_upgrade_secure "no"}}{{$upgrade_parms := split $docker_upgrade_url "/"}}
+  "insecure-registries": ["{{index $upgrade_parms 0}}"],
   {{end}}
   "hosts": ["0.0.0.0:2375","unix:///var/run/docker.sock"]
 }

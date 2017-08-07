@@ -1,5 +1,7 @@
 #!/bin/bash
 systemctl daemon-reload
-rsync -aqxP /var/lib/docker/ /data
-
+if [ -d /var/lib/docker ]
+then
+  rsync -aqxP /var/lib/docker/ /data
+fi
 systemctl start docker

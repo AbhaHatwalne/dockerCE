@@ -26,5 +26,17 @@ function verify_login(){
   fi
 }
 function check_fluentd(){
-    {{range $dir := lsdir "/hosts/client_node/"}}{{$client_node_ip := printf "/hosts/client_node/%s/ip" $dir}}{{$client_inst_id := printf "/hosts/client_node/%s/instance_id" $dir}}timeout 2 bash -c "</dev/tcp/{{getv $client_node_ip}}/24224"{{end}}
+  {{range $dir := lsdir "/hosts/client_node/"}}{{$client_node_ip := printf "/hosts/client_node/%s/ip" $dir}}{{$client_inst_id := printf "/hosts/client_node/%s/instance_id" $dir}}
+  loop=60
+  while [ "$loop" -gt 0 ]
+  do
+    #image_record=`docker images -a |awk '{print $1":"$2}'|grep $docker_url`
+    if timeout 2 bash -c "</dev/tcp/{{getv $client_node_ip}}/24224"
+    then
+      break
+    else
+      sleep 5s
+    fi
+  done
+  {{end}}
 }

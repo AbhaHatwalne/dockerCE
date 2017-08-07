@@ -1,41 +1,12 @@
 #!/bin/bash
-{{$docker_user :=getv "/env/docker_user" "guest"}}
-{{$docker_pwd :=getv "/env/docker_pwd" "guest"}}
-{{$docker_upgrade_url :=getv "/env/docker_upgrade_url"}}
-{{$docker_vol :=getv "/env/docker_vol"}}
-{{$docker_port :=getv "/env/docker_port"}}
-{{$docker_run_cmd :=getv "/env/docker_run_cmd"}}
-
+{{$docker_user :=getv "/env/docker_user" "guest"}}{{$docker_pwd :=getv "/env/docker_pwd" "guest"}}{{$docker_upgrade_url :=getv "/env/docker_upgrade_url"}}{{$docker_vol :=getv "/env/docker_vol"}}{{$docker_port :=getv "/env/docker_port"}}{{$docker_run_cmd :=getv "/env/docker_run_cmd"}}
 docker ps | awk '{print $1}' | grep -v 'none' | grep -iv 'container' | xargs -n1 docker rm -f
-
-login_attempt=3
-login_succeed=false
-while [ "$login_attempt" -gt 0 ]
-do
-  if docker login -u {{$docker_user}} -p {{$docker_pwd}} {{$docker_upgrade_url}} | grep Succeeded
-  then
-    login_succeed=true
-    break
-  else
-    login_attempt=$[$login_attempt-1]
-  fi
-done
-if [ login_succeed == "false" ]
+source /opt/docker/bin/docker-util.sh {{$docker_user}} {{$docker_pwd}} {{$docker_upgrade_url}}
+verify_login
+docker pull {{$docker_upgrade_url}}
+if check_fluentd
 then
+  docker run -d -e TZ=Asia/Shanghai -p 80:{{$docker_port}}  -v /data/docker_data:{{$docker_vol}} {{$docker_upgrade_url}} {{$docker_run_cmd}}
+else 
   exit 1
 fi
-
-docker pull {{$docker_upgrade_url}}
-loop=60
-while [ "$loop" -gt 0 ]
-do
-  #image_record=`docker images -a |awk '{print $1":"$2}'|grep {{$docker_upgrade_url}}`
-  if docker images -a |awk '{print $1":"$2}'|grep {{$docker_upgrade_url}}
-  then
-    break
-  else
-    sleep 30s
-  fi
-done
-
-docker run -d -e TZ=Asia/Shanghai -p 80:{{$docker_port}}  -v /data/docker_data:{{$docker_vol}} {{$docker_upgrade_url}} {{$docker_run_cmd}}

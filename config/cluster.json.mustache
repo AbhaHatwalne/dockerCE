@@ -8,7 +8,7 @@
              "container": {
                  "type": "kvm",
                  "zone": "pek3a",
-                 "image": "img-p2z8cp0f"
+                 "image": "img-qj0dh69r"
              },
              "loadbalancer": {{cluster.docker_node.loadbalancer}},
              "instance_class": {{cluster.docker_node.instance_class}},
@@ -38,6 +38,7 @@
                      "cmd": "/opt/docker/bin/stop-docker.sh"
                  },
                  "upgrade image": {
+                     "type": "custom",
                      "cmd": "/opt/docker/bin/upgrade-img.sh"
                  }
              },
@@ -58,7 +59,7 @@
              "container": {
                  "type": "kvm",
                  "zone": "pek3a",
-                 "image": "img-l7ctjxin"
+                 "image": "img-uza0mapy"
              },
              "instance_class": {{cluster.client_node.instance_class}},
              "count": 1,

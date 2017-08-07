@@ -188,7 +188,7 @@
 					"changeable": true,
 					"default": "",
 					"required": "no",
-					"pattern": "^$|https?.*"
+					"pattern": "^$|^https?.*$"
 				},
 				{
 					"key": "docker_user",
@@ -225,7 +225,7 @@
 					"changeable": true,
 					"default": "",
 					"required": "yes",
-					"pattern": "^$|(?!http).*"
+					"pattern": "^((?!http).*)$|^$"
 				},
 				{
 					"key": "docker_run_cmd",
@@ -253,7 +253,7 @@
 					"changeable": true,
 					"default": "",
 					"required": "no",
-					"pattern": "^$|(?!http).*"
+					"pattern": "^((?!http).*)$|^$"
 				},
 				{
 					"key": "docker_vol",

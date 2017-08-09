@@ -7,7 +7,7 @@ function docker_login(){
   docker login -u $docker_user -p $docker_pwd $docker_url
 }
 function verify_login(){
-  if [ $docker_user == "" ]
+  if [ "$docker_user" == "" ]
   then
     return 0
   fi

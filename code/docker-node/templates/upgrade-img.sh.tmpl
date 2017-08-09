@@ -1,9 +1,13 @@
 #!/bin/bash
-{{$docker_user :=getv "/env/docker_user" "guest"}}{{$docker_pwd :=getv "/env/docker_pwd" "guest"}}{{$docker_upgrade_url :=getv "/env/docker_upgrade_url"}}{{$docker_vol :=getv "/env/docker_vol"}}{{$docker_port :=getv "/env/docker_port"}}{{$docker_run_cmd :=getv "/env/docker_run_cmd"}}
+{{$docker_user :=getv "/env/docker_user"}}{{$docker_pwd :=getv "/env/docker_pwd"}}{{$docker_upgrade_url :=getv "/env/docker_upgrade_url"}}{{$docker_vol :=getv "/env/docker_vol"}}{{$docker_port :=getv "/env/docker_port"}}{{$docker_run_cmd :=getv "/env/docker_run_cmd"}}
 docker ps | awk '{print $1}' | grep -v 'none' | grep -iv 'container' | xargs -n1 docker rm -f
-source /opt/docker/bin/docker-util.sh {{$docker_user}} {{$docker_pwd}} {{$docker_upgrade_url}}
-verify_login
-docker pull {{$docker_upgrade_url}}
+source /opt/docker/bin/docker-util.sh
+if verify_login
+then
+  docker pull {{$docker_upgrade_url}}
+else
+  exit 1
+fi
 if check_fluentd
 then
   docker run -d -e TZ=Asia/Shanghai -p 80:{{$docker_port}}  -v /data/docker_data:{{$docker_vol}} {{$docker_upgrade_url}} {{$docker_run_cmd}}

@@ -8,7 +8,7 @@
              "container": {
                  "type": "kvm",
                  "zone": "pek3a",
-                 "image": "img-opow00b6"
+                 "image": "img-hg9zvbdy"
              },
              "loadbalancer": {{cluster.docker_node.loadbalancer}},
              "instance_class": {{cluster.docker_node.instance_class}},
@@ -32,7 +32,7 @@
                     "cmd": "/opt/docker/bin/start-docker.sh && /opt/docker/bin/run-img.sh"
                  },
                  "restart": {
-                   "cmd": "/opt/docker/bin/restart-docker.sh"
+                   "cmd": "/opt/docker/bin/restart-docker.sh && /opt/docker/bin/run-img.sh"
                  },
                  "stop": {
                      "cmd": "/opt/docker/bin/stop-docker.sh"
@@ -59,7 +59,7 @@
              "container": {
                  "type": "kvm",
                  "zone": "pek3a",
-                 "image": "img-kmq8fqwk"
+                 "image": "img-8uvmmvu8"
              },
              "instance_class": {{cluster.client_node.instance_class}},
              "count": 1,

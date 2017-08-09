@@ -1,9 +1,13 @@
 #!/bin/bash
-{{$docker_user :=getv "/env/docker_user" "guest"}}{{$docker_pwd :=getv "/env/docker_pwd" "guest"}}{{$docker_pull_url :=getv "/env/docker_pull_url"}}{{$docker_upgrade_url :=getv "/env/docker_upgrade_url"}}{{$docker_run_cmd :=getv "/env/docker_run_cmd"}}{{$docker_vol :=getv "/env/docker_vol"}}{{$docker_port :=getv "/env/docker_port"}}
+{{$docker_user :=getv "/env/docker_user"}}{{$docker_pwd :=getv "/env/docker_pwd"}}{{$docker_pull_url :=getv "/env/docker_pull_url"}}{{$docker_upgrade_url :=getv "/env/docker_upgrade_url"}}{{$docker_run_cmd :=getv "/env/docker_run_cmd"}}{{$docker_vol :=getv "/env/docker_vol"}}{{$docker_port :=getv "/env/docker_port"}}
 {{if gt ( len ( $docker_upgrade_url ) ) 0}}docker_url={{$docker_upgrade_url}}{{else}}docker_url={{$docker_pull_url}}{{end}}
-source /opt/docker/bin/docker-util.sh {{$docker_user}} {{$docker_pwd}} $docker_url
-verify_login
-docker pull $docker_url
+source /opt/docker/bin/docker-util.sh
+if verify_login
+then
+  docker pull $docker_url
+else
+  exit 1
+fi
 if check_fluentd
 then
   docker run -d -e TZ=Asia/Shanghai -p 80:{{$docker_port}}  -v /data/docker_data:{{$docker_vol}} $docker_url {{$docker_run_cmd}}

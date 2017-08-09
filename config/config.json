@@ -181,6 +181,24 @@
 			"type": "array",
 			"properties": [
 				{
+					"key": "docker_user",
+					"label": "User name",
+					"description": "User name to access Docker registry server, leaving it empty if choosing public repository and image",
+                    "type": "string",
+                    "changeable": true,
+					"default": "",
+					"required": "no"
+                },
+                {
+					"key": "docker_pwd",
+					"label": "Password",
+					"description": "Password to access Docker registry server, leaving it empty if choosing public repository and image",
+					"type": "password",
+					"changeable": true,
+					"default": "",
+					"required": "no"
+				},
+				{
 					"key": "docker_mirror_location",
 					"label": "The location of Docker mirror registry server",
 					"description": "The location of Docker mirror registry server, currently only support offcial DockerHub registration server",
@@ -189,24 +207,6 @@
 					"default": "",
 					"required": "no",
 					"pattern": "^$|^https?.*$"
-				},
-				{
-					"key": "docker_user",
-					"label": "User name",
-					"description": "User name to access Docker registry server, will use guest account if leaving it empty, guest accout is supported by offical dockerhub site and dockerhub.qingcloud.com",
-                    "type": "string",
-                    "changeable": true,
-					"default": "",
-					"required": "yes"
-                },
-                {
-					"key": "docker_pwd",
-					"label": "Password",
-					"description": "Password to access Docker registry server, will use guest account if leaving it empty, guest accout is supported by offical dockerhub site and dockerhub.qingcloud.com",
-					"type": "password",
-					"changeable": true,
-					"default": "",
-					"required": "yes"
 				},
 				{
 					"key": "is_pull_secure",

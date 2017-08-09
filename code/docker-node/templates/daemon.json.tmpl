@@ -1,10 +1,7 @@
-{{$docker_mirror_location :=getv "/env/docker_mirror_location"}}
-{{$is_pull_secure :=getv "/env/is_pull_secure"}}
-{{$docker_pull_url :=getv "/env/docker_pull_url"}}
-{{$is_upgrade_secure :=getv "/env/is_upgrade_secure"}}
-{{$docker_upgrade_url :=getv "/env/docker_upgrade_url"}}
-{{$this_inst_id :=getv "/host/instance_id"}}
+{{$docker_mirror_location :=getv "/env/docker_mirror_location"}}{{$is_pull_secure :=getv "/env/is_pull_secure"}}{{$docker_pull_url :=getv "/env/docker_pull_url"}}{{$is_upgrade_secure :=getv "/env/is_upgrade_secure"}}{{$docker_upgrade_url :=getv "/env/docker_upgrade_url"}}{{$this_inst_id :=getv "/host/instance_id"}}
 {
+  "live-restore": true,
+  "storage-driver": "overlay2",
   {{if gt ( len ( $docker_mirror_location ) ) 0}}
   "registry-mirrors": ["{{$docker_mirror_location}}"],
   {{end}}

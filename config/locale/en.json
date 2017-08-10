@@ -10,7 +10,7 @@
     "Docker node": "Docker node",
     "Docker node properties": "Docker node properties",
     "loadbalancer": "loadbalancer",
-    "Choose a loadbalancer service (When you create loadbalancer, you need to select the Internet type. Loadbalancer listener need to enable Session Sticky. Listener protocol should be http)": "Choose a loadbalancer service (When you create loadbalancer, you need to select the Internet type. Loadbalancer listener need to enable Session Sticky. Listener protocol should be http)",
+    "Choose a loadbalancer service (Listener protocol should be http and port should be 80, Loadbalancer listener need to enable Session Sticky if the application running in container need to support session replication)": "Choose a loadbalancer service (Listener protocol should be http and port should be 80, Loadbalancer listener need to enable Session Sticky if the application running in container need to support session replication)",
     "CPU": "CPU",
     "CPUs of each node": "CPUs of each node",
     "Memory": "Memory",

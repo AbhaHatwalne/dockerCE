@@ -1,0 +1,7 @@
+
+[template]
+src = "fluentd.conf.tmpl"
+dest = "/data/docker_data/fluentd.conf"
+keys = [
+    "/",
+]

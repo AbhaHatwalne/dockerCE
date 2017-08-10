@@ -1,0 +1,6 @@
+[template]
+src = "run-img.sh.tmpl"
+dest = "/opt/docker/bin/run-img.sh"
+keys = [
+    "/",
+]

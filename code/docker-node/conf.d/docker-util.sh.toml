@@ -1,0 +1,6 @@
+[template]
+src = "docker-util.sh.tmpl"
+dest = "/opt/docker/bin/docker-util.sh"
+keys = [
+    "/",
+]

@@ -1,0 +1,7 @@
+[template]
+src = "daemon.json.tmpl"
+dest = "/etc/docker/daemon.json"
+keys = [
+    "/",
+]
+reload_cmd = "systemctl daemon-reload && /opt/docker/bin/restart-docker.sh"

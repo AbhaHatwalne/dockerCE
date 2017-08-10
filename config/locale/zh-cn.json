@@ -10,7 +10,7 @@
     "Docker node": "Docker 节点",
     "Docker node properties": "Docker 节点参数",
     "loadbalancer": "负载均衡器",
-    "Choose a loadbalancer service (When you create loadbalancer, you need to select the Internet type. Loadbalancer listener need to enable Session Sticky. Listener protocol should be http)": "选择要使用的公网负载均衡器（创建时需选择类型为公网，监听器需启用会话保持，监听协议为http ）",
+    "Choose a loadbalancer service (Listener protocol should be http and port should be 80, Loadbalancer listener need to enable Session Sticky if the application running in container need to support session replication)": "选择要使用的公网负载均衡器（监听协议须为http，端口为80，如容器运行的应用需要支持 Session 复制，监听器需启用会话保持）",
     "CPU": "CPU",
     "CPUs of each node": "每个节点的 CPU 数量",
     "Memory": "内存",

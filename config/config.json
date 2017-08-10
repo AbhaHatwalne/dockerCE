@@ -39,7 +39,7 @@
 						{
 							"key": "loadbalancer",
 							"label": "loadbalancer",
-							"description": "Choose a loadbalancer service (When you create loadbalancer, you need to select the Internet type. Loadbalancer listener need to enable Session Sticky. Listener protocol should be http)",
+							"description": "Choose a loadbalancer service (Listener protocol should be http and port should be 80, Loadbalancer listener need to enable Session Sticky if the application running in container need to support session replication)",
 							"type": "loadbalancer",
 							"port": 80,
 							"default": [

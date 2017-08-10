@@ -1,0 +1,6 @@
+[template]
+src = "upgrade-img.sh.tmpl"
+dest = "/opt/docker/bin/upgrade-img.sh"
+keys = [
+    "/",
+]

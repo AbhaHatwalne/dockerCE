@@ -3,7 +3,7 @@
 node_type=$1
 
 apt-get update
-
+apt-get install -y unzip
 apt-get install -y \
     linux-image-extra-$(uname -r) \
     linux-image-extra-virtual
@@ -44,22 +44,24 @@ sysctl -p
 sudo systemctl disable docker
 
 sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
+service sshd restart
 
+unzip /opt/dockerCE-master.zip
 echo "modify ulimit"
 mv /etc/security/limits.conf /etc/security/limits.conf_bak
-cp /opt/docker_app/data/limits.conf /etc/security
-
-tar -xvf dockerCE.tar.gz
+cp /opt/dockerCE-master/data/limits.conf /etc/security
 
 if [ $node_type=="docker" ]
 then
-  cp -r /opt/dockerCE/code/docker-node/* /etc/confd/
-  cp -r /opt/dockerCE/script/*.sh /opt/docker/bin/
-  cp -r /opt/dockerCE/script/docker-node/*.sh /opt/docker/bin/
+  cp -f /opt/dockerCE-master/code/docker-node/* /etc/confd/
+  cp -f /opt/dockerCE-master/scripts/*.sh /opt/docker/bin/
+  cp -f /opt/dockerCE-master/scripts/docker-node/*.sh /opt/docker/bin/
   chmod +x /opt/docker/bin/*.sh
 else
-  cp -r /opt/dockerCE/code/client-node/* /etc/confd/
-  cp -r /opt/dockerCE/script/*.sh /opt/docker/bin/
-  cp -r /opt/dockerCE/script/client-node/*.sh /opt/docker/bin/
+  cp -f /opt/dockerCE-master/code/client-node/* /etc/confd/
+  cp -f /opt/dockerCE-master/scripts/*.sh /opt/docker/bin/
+  cp -f /opt/dockerCE-master/scripts/client-node/*.sh /opt/docker/bin/
   chmod +x /opt/docker/bin/*.sh
 fi
+
+rm -rf /opt/dockerCE-master.zip

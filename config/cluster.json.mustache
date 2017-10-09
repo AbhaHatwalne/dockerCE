@@ -2,6 +2,9 @@
      "name": {{cluster.name}},
      "description": {{cluster.description}},
      "vxnet": {{cluster.vxnet}},
+     "links": {
+         "elk_service": {{cluster.elk_service}}
+     },
      "nodes": [
          {
              "role": "docker_node",
@@ -59,7 +62,7 @@
              "container": {
                  "type": "kvm",
                  "zone": "pek3a",
-                 "image": "img-ubnr8tdc"
+                 "image": "img-6zxcqf5x"
              },
              "instance_class": {{cluster.client_node.instance_class}},
              "count": 1,
@@ -109,8 +112,6 @@
          "is_upgrade_secure": {{env.is_upgrade_secure}},
          "docker_upgrade_url": {{env.docker_upgrade_url}},
          "docker_vol": {{env.docker_vol}},
-         "docker_port": {{env.docker_port}},
-         "es_ip": {{env.es_ip}},
-         "es_port": {{env.es_port}}
+         "docker_port": {{env.docker_port}}
      }
  }

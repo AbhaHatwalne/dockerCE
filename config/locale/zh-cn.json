@@ -7,6 +7,8 @@
     "Docker multiple-nodes service": "Docker 多节点服务",
     "vxnet": "私有网络",
     "Choose a vxnet to join": "选择要加入的私有网络",
+    "ELK service": "ELK 服务",
+    "Choose an ELK cluster to use, leave empty if you choose not to use it": "请选择 ELK 集群用于日志管理，如不需要可忽略",
     "Docker node": "Docker 节点",
     "Docker node properties": "Docker 节点参数",
     "loadbalancer": "负载均衡器",

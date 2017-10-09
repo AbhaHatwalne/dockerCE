@@ -7,6 +7,8 @@
     "Docker multiple-nodes service": "Docker multiple-nodes service",
     "vxnet": "vxnet",
     "Choose a vxnet to join": "Choose a vxnet to join",
+    "ELK service": "ELK service",
+    "Choose an ELK cluster to use, leave empty if you choose not to use it": "Choose an ELK cluster to use, leave empty if you choose not to use it",
     "Docker node": "Docker node",
     "Docker node properties": "Docker node properties",
     "loadbalancer": "loadbalancer",

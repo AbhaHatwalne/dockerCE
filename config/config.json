@@ -31,6 +31,15 @@
 					"required": "yes"
 				},
 				{
+					"key": "elk_service",
+					"label": "ELK service",
+					"description": "Choose an ELK cluster to use, leave empty if you choose not to use it",
+					"type": "service",
+					"tag": ["ELK", "elk"],
+					"default": "",
+					"required": "no"
+				},
+				{
 					"key": "docker_node",
 					"label": "Docker node",
 					"description": "Docker node properties",
@@ -273,25 +282,6 @@
 					"changeable": true,
 					"default": "8080",
 					"required": "yes",
-					"pattern": "^[0-9]*$"
-				},
-				{
-					"key": "es_ip",
-					"label": "IP address of Elastic Search server",
-					"description": "IP address of Elastic Search server, leave it empty if you don't need Elastic Search server to manage trace",
-					"type": "string",
-					"changeable": true,
-					"default": "",
-					"required": "no"
-				},
-				{
-					"key": "es_port",
-					"label": "Port of Elastic Search server",
-					"description": "Port of Elastic Search server,  leave it empty if you don't need Elastic Search server to manage trace",
-					"type": "string",
-					"changeable": true,
-					"default": "9200",
-					"required": "no",
 					"pattern": "^[0-9]*$"
 				}
 			]

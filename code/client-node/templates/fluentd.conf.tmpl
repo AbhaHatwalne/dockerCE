@@ -1,6 +1,4 @@
-{{$es_ip :=getv "/env/es_ip"}}
-{{$es_port :=getv "/env/es_port"}}
-{{if gt ( len ( $es_ip ) ) 0}}
+{{range $index,$value := gets "/links/elk_service/hosts/es_node/*/ip"}}{{if eq $index 0}}{{$es_ip :=.Value}}{{$es_port :=getv "/links/elk_service/cluster/endpoints/ElasticSearch/port"}}
  <source>
    @type forward
  </source>
@@ -9,8 +7,8 @@
   @type copy
   <store>
     @type elasticsearch
-    host $es_ip
-    port $es_port
+    host {{$es_ip}}
+    port {{$es_port}}
     logstash_format true
     logstash_prefix fluentd
     logstash_dateformat %Y%m%d
@@ -23,6 +21,7 @@
     @type stdout
   </store>
  </match>
+{{end}}
 {{else}}
  <source>
    @type forward

@@ -1,0 +1,2 @@
+#!/bin/bash
+docker run -d -e TZ=Asia/Shanghai -it -p 24224:24224 -v /data/docker_data/fluentd.conf:/fluentd/etc/fluentd.conf -e FLUENTD_CONF=fluentd.conf dockerhub.qingcloud.com/calvinyu/fluentd-es-plugin

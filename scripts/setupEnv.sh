@@ -46,6 +46,9 @@ sudo systemctl disable docker
 sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
 service sshd restart
 
+mkdir /opt/docker
+mkdir /opt/docker/bin
+
 unzip /opt/dockerCE-master.zip
 echo "modify ulimit"
 mv /etc/security/limits.conf /etc/security/limits.conf_bak
@@ -53,7 +56,8 @@ cp /opt/dockerCE-master/data/limits.conf /etc/security
 
 if [ $node_type=="docker" ]
 then
-  cp -f /opt/dockerCE-master/code/docker-node/* /etc/confd/
+  cp -f /opt/dockerCE-master/code/docker-node/conf.d/* /etc/confd/conf.d
+  cp -f /opt/dockerCE-master/code/docker-node/templates/* /etc/confd/templates
   cp -f /opt/dockerCE-master/scripts/*.sh /opt/docker/bin/
   cp -f /opt/dockerCE-master/scripts/docker-node/*.sh /opt/docker/bin/
   chmod +x /opt/docker/bin/*.sh

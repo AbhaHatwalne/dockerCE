@@ -10,8 +10,8 @@
              "role": "docker_node",
              "container": {
                  "type": "kvm",
-                 "zone": "pek3a",
-                 "image": " img-odqzdal3"
+                 "zone": "sh1a",
+             
              },
              "loadbalancer": {{cluster.docker_node.loadbalancer}},
              "instance_class": {{cluster.docker_node.instance_class}},
@@ -61,8 +61,8 @@
              "role": "client_node",
              "container": {
                  "type": "kvm",
-                 "zone": "pek3a",
-                 "image": " img-odqzdal3"
+                 "zone": "sh1a",
+               
              },
              "instance_class": {{cluster.client_node.instance_class}},
              "count": 1,
